@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 import json
+import re
 import os
 import urllib.request
 from typing import Any
@@ -9,15 +10,18 @@ from typing import List
 from typing import Optional
 from typing import Tuple
 
-DONT_WATCH = (
-    'asottile2/',
-    'conda-forge/',
-    'github/',
-    'PyCQA/',
-    'pypy/',
-    'pytest-dev/',
-    'tox-dev/',
-)
+DONT_WATCH = re.compile('|'.join([
+    r'programming-abstractions/(?:f|s|fa|sp|su)\d+-',
+    r'CSCI210/',
+    r'CSCI341SP21/',
+    r'systems-programming/(?:f|s|fa|sp|su)\d+-',
+    r'systems-programming/playground-',
+    r'systems-programming/hw\d+-(?!base$|solutions$)',
+    r'oberlin-security/(?:f|s|fa|sp|su)\d+-',
+    r'uicsystems/',
+    r'uic-security/',
+    r'uic-research',
+]))
 
 
 def _parse_link_header(lnk: Optional[str]) -> Dict[str, str]:
@@ -74,7 +78,7 @@ def main() -> int:
     repos = [x['full_name'] for x in _get_all('repos', token)]
 
     for repo in repos:
-        if not repo.startswith(DONT_WATCH) and repo not in subbed:
+        if not DONT_WATCH.match(repo) and repo not in subbed:
             print(f'watching {repo}...')
             if not args.dry_run:
                 _subscribe(repo, token)

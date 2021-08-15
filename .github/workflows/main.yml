@@ -1,13 +1,13 @@
 name: main
 on:
   push:
-    branches: [master]
+    branches: [main]
   schedule:
   - cron: '0 8 * * *'
 
 jobs:
   build:
-    name: main
+    name: Watch repositories
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
