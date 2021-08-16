@@ -20,7 +20,8 @@ DONT_WATCH = re.compile('|'.join([
     r'oberlin-security/(?:f|s|fa|sp|su)\d+-',
     r'uicsystems/',
     r'uic-security/',
-    r'uic-research',
+    r'uic-research/',
+    r'github/',
 ]))
 
 
@@ -86,4 +87,4 @@ def main() -> int:
 
 
 if __name__ == '__main__':
-    exit(main())
+    sys.exit(main())
